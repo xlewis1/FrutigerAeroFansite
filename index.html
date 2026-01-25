@@ -283,18 +283,44 @@ body {
 
 <script>
 /* ==================================================
-   THEME SYSTEM
+   THEME SYSTEM & MAIN IMAGE SWITCH
    ================================================== */
 function setTheme(theme) {
   document.body.setAttribute("data-theme", theme);
   localStorage.setItem("site-theme", theme);
+  updateMainImage(theme);
 }
 
-/* Load saved theme */
 (function(){
   const saved = localStorage.getItem("site-theme");
-  if(saved) document.body.setAttribute("data-theme", saved);
+  if(saved) {
+    document.body.setAttribute("data-theme", saved);
+    updateMainImage(saved);
+  }
 })();
+
+function updateMainImage(theme) {
+  const mainImg = document.querySelector('.panel img');
+  switch(theme) {
+    case 'aero':
+      mainImg.src = 'Aero.webp';
+      break;
+    case 'eco':
+      mainImg.src = 'Eco.jpeg';
+      break;
+    case 'dorfic':
+      mainImg.src = 'Dorific.webp';
+      break;
+    case 'aqua':
+      mainImg.src = 'IMG_1292.jpeg';
+      break;
+    case 'metro':
+      mainImg.src = 'Metro.png';
+      break;
+    default:
+      mainImg.src = 'Aero.webp';
+  }
+}
 
 /* ==================================================
    BUBBLE GENERATOR
@@ -312,7 +338,6 @@ function createBubble() {
   setTimeout(()=>bubble.remove(), 14000);
 }
 
-/* Generate bubbles continuously */
 setInterval(createBubble, 500);
 </script>
 
