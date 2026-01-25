@@ -59,6 +59,16 @@ body[data-theme="metro"] {
   --button-glow: rgba(255,255,255,0.5);
 }
 
+/* Windows XP */
+body[data-theme="xp"] {
+  --bg-main: linear-gradient(135deg, #3a7bd5, #00d2ff); /* soft sky blue gradient */
+  --panel: rgba(255,255,255,0.75);
+  --accent: #1a73e8;
+  --text: #111;
+  --button: linear-gradient(#cce4ff, #66a3ff);
+  --button-glow: rgba(255,255,255,0.4);
+}
+
 /* ===============================
    BASE
    =============================== */
@@ -262,6 +272,7 @@ body {
     <div class="theme-btn" onclick="setTheme('dorfic')">Dorfic</div>
     <div class="theme-btn" onclick="setTheme('aqua')">Aqua</div>
     <div class="theme-btn" onclick="setTheme('metro')">Metro</div>
+    <div class="theme-btn" onclick="setTheme('xp')">Windows XP</div>
   </aside>
 
   <!-- MAIN -->
@@ -319,6 +330,9 @@ function updateMainImage(theme) {
       break;
     default:
       mainImg.src = 'Aero.webp';
+    case 'xp':
+      mainImg.src = 'Bliss.jpg'; // your Windows XP Bliss wallpaper image
+      break;
   }
 }
 
