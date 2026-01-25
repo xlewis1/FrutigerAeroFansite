@@ -61,12 +61,41 @@ body[data-theme="metro"] {
 
 /* Windows XP */
 body[data-theme="xp"] {
-  --bg-main: #ffffff;              /* white window background */
-  --panel: #e6e6e6;                /* light gray panel like XP windows */
-  --accent: #0a64ad;               /* classic XP taskbar blue */
-  --text: #111111;                 /* dark text */
-  --button: #0a64ad;               /* solid navbar/sidebar button base color */
-  --button-glow: rgba(0,0,0,0);    /* no glow, flat XP style */
+  --bg-main: #ffffff;             /* white window background */
+  --panel: #e6e6e6;               /* light gray panel like XP windows */
+  --accent: #0a64ad;              /* solid blue for navbar/sidebar */
+  --text: #111;                   /* black text */
+  --button: #00b200;              /* green, start-button-inspired buttons */
+  --button-glow: rgba(0,0,0,0);   /* flat look */
+}
+
+/* Navbar and sidebar solid blue (taskbar) */
+body[data-theme="xp"] .navbar,
+body[data-theme="xp"] .sidebar {
+  background: #0a64ad;           /* XP taskbar blue */
+  backdrop-filter: none;         /* remove glass blur */
+  box-shadow: none;              /* flat feel */
+}
+
+/* Nav/sidebar links now green buttons */
+body[data-theme="xp"] .navbar a,
+body[data-theme="xp"] .sidebar a,
+body[data-theme="xp"] .theme-btn {
+  background: var(--button);     /* green buttons */
+  color: #fff;                   /* white text */
+  border-radius: 4px;            /* flat rectangles */
+  box-shadow: none;              /* no shine/glass */
+  font-weight: bold;
+  padding: 10px 16px;
+  text-align: center;
+  transition: filter 0.2s ease;
+}
+
+/* Hover effect */
+body[data-theme="xp"] .navbar a:hover,
+body[data-theme="xp"] .sidebar a:hover,
+body[data-theme="xp"] .theme-btn:hover {
+  filter: brightness(1.2);
 }
 
 /* ===============================
