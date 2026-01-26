@@ -172,12 +172,13 @@ body {
 .category h2:hover { filter: brightness(1.2); }
 
 .wallpapers {
-  display: none;
+  display: none; /* starts collapsed */
   margin-top: 10px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-  gap: 15px;
+  display: flex;          /* use flexbox */
+  flex-direction: column; /* stack vertically */
+  gap: 15px;              /* spacing between wallpapers */
 }
+   
 .wallpapers img {
   width: 100%;
   border-radius: 15px;
