@@ -273,6 +273,40 @@ body {
   50% { opacity: 0.5; }
   100% { transform: translateY(-50px) scale(1); opacity: 0; }
 }
+
+.msn-tile {
+  margin-top: 30px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+  border-radius: 25px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.6),
+    0 10px 25px rgba(0,0,0,0.35);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.msn-tile:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.8),
+    0 18px 40px rgba(0,0,0,0.45);
+}
+
+.msn-tile img {
+  width: 100px;
+  margin-bottom: 12px;
+}
+
+.msn-tile p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 16px;
+}
+
 </style>
 </head>
 
@@ -316,9 +350,13 @@ body {
       </p>
 
       <img src="Aero.webp" alt="Frutiger Aero Home Screen">
+      <div class="msn-tile">
+      <img src="msn-logo.png" alt="MSN Buddy">
+      <p>MSN Buddy (Mini Game)</p>
     </div>
-  </main>
+  </div>
 
+      
 </div>
 
 <script>
