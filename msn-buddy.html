@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MSN Buddy Mini Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #a6ffcb;
+  }
+
+  .game-panel {
+    position: relative;
+    width: 800px;
+    height: 500px;
+    border-radius: 25px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .buddy {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    animation: jump 1s ease-in-out infinite;
+  }
+
+  @keyframes jump {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-15px); }
+  }
+
+  .buttons-panel {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.25);
+    backdrop-filter: blur(12px);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  .buttons-panel button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: none;
+    background: linear-gradient(#ffffff, #9eefff);
+    cursor: pointer;
+    font-weight: bold;
+    color: #003b44;
+    box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 5px 12px rgba(0,0,0,0.25);
+    transition: filter 0.2s ease;
+  }
+
+  .buttons-panel button:hover { filter: brightness(1.2); }
+
+  .overlay {
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 18px;
+    flex-direction: column;
+  }
+
+  .overlay button {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="game-panel" id="game-panel">
+  <div class="overlay" id="overlay">
+    <h2>Select your buddy</h2>
+    <div>
+      <button data-color="blue">Blue Buddy</button>
+      <button data-color="green">Green Buddy</button>
+      <button data-color="pink">Pink Buddy</button>
+      <button data-color="yellow">Yellow Buddy</button>
+    </div>
+  </div>
+  <img src="" alt="Buddy" class="buddy" id="buddy" style="display:none;">
+  <div class="buttons-panel">
+    <button id="feed-btn">Feed</button>
+    <button id="sleep-btn">Sleep</button>
+    <button id="play-btn">Play</button>
+    <button id="home-btn">Return Home</button>
+  </div>
+</div>
+
+<script>
+const buddies = {
+  blue: { img: 'IMG_1382.png', house: 'IMG_1388.jpeg' },
+  green: { img: 'IMG_1384.png', house: 'IMG_1387.jpeg' },
+  pink: { img: 'IMG_1383.png', house: 'IMG_1386.jpeg' },
+  yellow: { img: 'IMG_1385.png', house: 'IMG_1389.jpeg' }
+};
+
+const overlay = document.getElementById('overlay');
+const buddyEl = document.getElementById('buddy');
+const gamePanel = document.getElementById('game-panel');
+
+let selectedBuddy = localStorage.getItem('msnBuddy') || null;
+let status = { hunger: 50, energy: 50, happiness: 50 };
+
+function updateBuddyDisplay() {
+  if (!selectedBuddy) return;
+  buddyEl.src = buddies[selectedBuddy].img;
+  buddyEl.style.display = 'block';
+  gamePanel.style.backgroundImage = `url('${buddies[selectedBuddy].house}')`;
+  overlay.style.display = 'none';
+  localStorage.setItem('msnBuddy', selectedBuddy);
+  localStorage.setItem('msnStatus', JSON.stringify(status));
+}
+
+// If a buddy is already selected, skip overlay
+if (selectedBuddy) {
+  const savedStatus = JSON.parse(localStorage.getItem('msnStatus'));
+  if(savedStatus) status = savedStatus;
+  updateBuddyDisplay();
+}
+
+// Buddy selection buttons
+overlay.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedBuddy = btn.dataset.color;
+    updateBuddyDisplay();
+  });
+});
+
+// Button actions
+document.getElementById('feed-btn').addEventListener('click', () => {
+  status.hunger = Math.min(100, status.hunger + 20);
+  jump('active');
+  saveStatus();
+});
+document.getElementById('sleep-btn').addEventListener('click', () => {
+  status.energy = Math.min(100, status.energy + 20);
+  jump('slow');
+  saveStatus();
+});
+document.getElementById('play-btn').addEventListener('click', () => {
+  status.happiness = Math.min(100, status.happiness + 20);
+  jump('high');
+  saveStatus();
+});
+document.getElementById('home-btn').addEventListener('click', () => {
+  window.location.href = 'index.html';
+});
+
+function jump(type) {
+  let height = 15;
+  let speed = 1;
+  if(type === 'high') height = 40;
+  if(type === 'slow') speed = 2;
+  buddyEl.style.animation = `jump ${speed}s ease-in-out infinite`;
+  buddyEl.style.transform = `translateX(-50%) translateY(0)`;
+  buddyEl.style.transition = `transform ${speed/2}s`;
+}
+
+// Save status to local storage
+function saveStatus() {
+  localStorage.setItem('msnStatus', JSON.stringify(status));
+}
+</script>
+
+</body>
+</html>
