@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MSN Buddy Mini Game</title>
 <style>
-/* ===============================
-   BASE
-=============================== */
+/* BASE */
 body {
   margin:0;
   font-family:"Segoe UI", Tahoma, sans-serif;
@@ -16,40 +14,31 @@ body {
   justify-content:center;
   align-items:center;
   min-height:100vh;
-  overflow:hidden;
 }
 
-/* ===============================
-   CONTAINER
-=============================== */
+/* GAME CONTAINER */
 .game-container {
   position:relative;
   width:400px;
   height:600px;
-  background:#ffffffaa;
+  background:rgba(255,255,255,0.4);
   backdrop-filter:blur(15px);
   border-radius:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.3);
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding:20px;
   overflow:hidden;
 }
 
-/* ===============================
-   INSTRUCTIONS & SELECTION
-=============================== */
+/* SELECTION SCREEN */
 .selection, .game-screen {
   width:100%;
   text-align:center;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
-
-.selection h2 {
-  margin-bottom:15px;
-}
-
 .buddy-option {
   display:inline-block;
   margin:10px;
@@ -57,68 +46,52 @@ body {
   border-radius:20px;
   padding:10px;
   background:linear-gradient(#fff,#9eefff);
-  box-shadow:inset 0 2px 2px rgba(255,255,255,0.3), 0 5px 12px rgba(0,0,0,0.25);
-  transition: transform 0.2s;
+  box-shadow:inset 0 2px 2px rgba(255,255,255,0.3),0 5px 12px rgba(0,0,0,0.25);
+  transition:transform 0.2s;
 }
-.buddy-option:hover {
-  transform:translateY(-5px);
-}
+.buddy-option:hover { transform:translateY(-5px); }
 
-/* ===============================
-   HOUSE & BUDDY
-=============================== */
-.house {
+/* HOUSE + BUDDY */
+.house-container {
+  position:relative;
   width:100%;
-  height:250px;
+  flex:1;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
   background-size:cover;
   background-position:center;
   border-radius:20px;
-  margin-bottom:20px;
-  position:relative;
+  margin-bottom:10px;
+  overflow:hidden;
 }
-
 .buddy {
   width:100px;
-  position:absolute;
   bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  transition: transform 0.2s;
+  transition:transform 0.2s;
 }
 
-/* Normal Jump Animation */
-@keyframes jump {
-  0%,100% { transform:translateX(-50%) translateY(0);}
-  50% { transform:translateX(-50%) translateY(-10px);}
-}
-.buddy.normal { animation: jump 1s ease-in-out infinite; }
+/* ANIMATIONS */
+@keyframes jump {0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+.buddy.normal { animation:jump 1s ease-in-out infinite; }
 
-/* Excited / Play Jump */
-@keyframes jump-excited {
-  0%,100% { transform:translateX(-50%) translateY(0);}
-  50% { transform:translateX(-50%) translateY(-25px);}
-}
-.buddy.excited { animation: jump-excited 0.6s ease-in-out infinite; }
+@keyframes jump-excited {0%,100%{transform:translateY(0);}50%{transform:translateY(-25px);}}
+.buddy.excited { animation:jump-excited 0.6s ease-in-out infinite; }
 
-/* Hungry / Sleepy Jump */
-@keyframes jump-slow {
-  0%,100% { transform:translateX(-50%) translateY(0);}
-  50% { transform:translateX(-50%) translateY(-5px);}
-}
-.buddy.slow { animation: jump-slow 1.5s ease-in-out infinite; }
+@keyframes jump-slow {0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+.buddy.slow { animation:jump-slow 1.5s ease-in-out infinite; }
 
-/* ===============================
-   BUTTONS
-=============================== */
+@keyframes trick {0%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-20px) rotate(10deg);}50%{transform:translateY(-10px) rotate(-10deg);}75%{transform:translateY(-25px) rotate(15deg);}100%{transform:translateY(0) rotate(0deg);}}
+.buddy.trick { animation:trick 1s ease-in-out; }
+
+/* BUTTON PANEL */
 .button-panel {
   display:flex;
   justify-content:space-around;
-  margin-top:auto;
   width:100%;
-  background:rgba(255,255,255,0.4);
+  background:rgba(255,255,255,0.5);
   backdrop-filter:blur(15px);
   padding:10px 0;
-  border-radius:15px;
 }
 .button-panel button {
   padding:10px 15px;
@@ -130,52 +103,14 @@ body {
   font-weight:bold;
   transition:transform 0.2s;
 }
-.button-panel button:hover {
-  transform:translateY(-3px);
-}
+.button-panel button:hover { transform:translateY(-3px); }
 
-/* ===============================
-   FLOATING POINTS
-=============================== */
-.floating-points {
-  position:absolute;
-  font-weight:bold;
-  font-size:24px;
-  color:#00bfff;
-  pointer-events:none;
-  left:50%;
-  bottom:140px;
-  transform:translateX(-50%);
-  z-index:10;
-  animation: floatUp 1s ease-out forwards;
-}
-
-@keyframes floatUp {
-  0% { opacity:1; transform:translateX(-50%) translateY(0);}
-  100% { opacity:0; transform:translateX(-50%) translateY(-50px);}
-}
-
-/* ===============================
-   Trick animation
-=============================== */
-@keyframes trick {
-  0% { transform:translateX(-50%) translateY(0) rotate(0deg);}
-  25% { transform:translateX(-50%) translateY(-20px) rotate(10deg);}
-  50% { transform:translateX(-50%) translateY(-10px) rotate(-10deg);}
-  75% { transform:translateX(-50%) translateY(-25px) rotate(15deg);}
-  100% { transform:translateX(-50%) translateY(0) rotate(0deg);}
-}
-
-.buddy.trick { animation: trick 1s ease-in-out; }
-
-/* ===============================
-   RETURN / NEW BUDDY BUTTONS
-=============================== */
+/* RETURN / NEW BUDDY */
 .return-buttons {
   display:flex;
   justify-content:center;
   gap:20px;
-  margin-top:15px;
+  margin:10px 0;
 }
 .return-buttons a {
   padding:10px 15px;
@@ -187,14 +122,28 @@ body {
   box-shadow:inset 0 2px 2px rgba(255,255,255,0.3),0 5px 12px rgba(0,0,0,0.25);
   transition:transform 0.2s;
 }
-.return-buttons a:hover { transform:translateY(-3px);}
+.return-buttons a:hover { transform:translateY(-3px); }
+
+/* FLOATING POINTS */
+.floating-points {
+  position:absolute;
+  font-weight:bold;
+  font-size:24px;
+  color:#00bfff;
+  pointer-events:none;
+  left:50%;
+  bottom:150px;
+  transform:translateX(-50%);
+  animation:floatUp 1s ease-out forwards;
+}
+@keyframes floatUp {0%{opacity:1;transform:translateX(-50%) translateY(0);}100%{opacity:0;transform:translateX(-50%) translateY(-50px);}}
 </style>
 </head>
 <body>
 
 <div class="game-container">
 
-  <!-- SELECTION SCREEN -->
+  <!-- SELECTION -->
   <div class="selection" id="selection-screen">
     <h2>Select your MSN Buddy!</h2>
     <div class="buddy-option" onclick="selectBuddy('blue')">
@@ -213,8 +162,9 @@ body {
 
   <!-- GAME SCREEN -->
   <div class="game-screen" id="game-screen" style="display:none;">
-    <div class="house" id="house"></div>
-    <img src="" class="buddy normal" id="buddy">
+    <div class="house-container" id="house">
+      <img src="" class="buddy normal" id="buddy">
+    </div>
     <div class="button-panel">
       <button onclick="feedBuddy()">Feed</button>
       <button onclick="playBuddy()">Play</button>
@@ -229,21 +179,16 @@ body {
 </div>
 
 <script>
-/* ===============================
-   BUDDY DATA
-=============================== */
 const buddies = {
-  blue: {img:'IMG_1382.png', house:'IMG_1388.jpeg'},
+  blue:{img:'IMG_1382.png', house:'IMG_1388.jpeg'},
   green:{img:'IMG_1384.png', house:'IMG_1387.jpeg'},
-  pink: {img:'IMG_1383.png', house:'IMG_1386.jpeg'},
+  pink:{img:'IMG_1383.png', house:'IMG_1386.jpeg'},
   yellow:{img:'IMG_1385.png', house:'IMG_1389.jpeg'}
 };
 
 let currentBuddy = localStorage.getItem('msnBuddy') || null;
 
-/* ===============================
-   SELECT BUDDY
-=============================== */
+/* SELECT BUDDY */
 function selectBuddy(color){
   currentBuddy = color;
   localStorage.setItem('msnBuddy', color);
@@ -257,26 +202,22 @@ function startGame(){
   const houseDiv = document.getElementById('house');
   buddyImg.src = buddies[currentBuddy].img;
   houseDiv.style.backgroundImage = `url(${buddies[currentBuddy].house})`;
-  buddyImg.className = 'buddy normal';
+  buddyImg.className='buddy normal';
 }
 
-/* ===============================
-   NEW BUDDY
-=============================== */
+/* NEW BUDDY */
 function selectNewBuddy(){
   localStorage.removeItem('msnBuddy');
-  currentBuddy = null;
+  currentBuddy=null;
   document.getElementById('game-screen').style.display='none';
-  document.getElementById('selection-screen').style.display='block';
+  document.getElementById('selection-screen').style.display='flex';
 }
 
-/* ===============================
-   INTERACTIONS
-=============================== */
+/* INTERACTIONS */
 function feedBuddy(){
   showFloatingPoints(Math.random() < 0.5 ? '+1' : '+2');
   const buddy = document.getElementById('buddy');
-  buddy.className='buddy exc>ited';
+  buddy.className='buddy excited';
   setTimeout(()=>{buddy.className='buddy normal';},1000);
 }
 
@@ -292,9 +233,7 @@ function sleepBuddy(){
   setTimeout(()=>{buddy.className='buddy normal';},2000);
 }
 
-/* ===============================
-   FLOATING POINTS
-=============================== */
+/* FLOATING POINTS */
 function showFloatingPoints(text){
   const points = document.createElement('div');
   points.className='floating-points';
@@ -303,9 +242,7 @@ function showFloatingPoints(text){
   setTimeout(()=>points.remove(),1000);
 }
 
-/* ===============================
-   AUTO START IF SAVED
-=============================== */
+/* AUTO START IF SAVED */
 if(currentBuddy) startGame();
 </script>
 
