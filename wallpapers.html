@@ -172,9 +172,8 @@ body {
 .category h2:hover { filter: brightness(1.2); }
 
 .wallpapers {
-  display: none; /* starts collapsed */
+  display: none;          /* starts collapsed */
   margin-top: 10px;
-  display: flex;          /* use flexbox */
   flex-direction: column; /* stack vertically */
   gap: 15px;              /* spacing between wallpapers */
 }
@@ -383,11 +382,7 @@ function setTheme(theme) {
    ================================================== */
 function toggleCategory(header) {
   const wallpapers = header.nextElementSibling;
-  if(wallpapers.style.display === "flex") {
-    wallpapers.style.display = "none";
-  } else {
-    wallpapers.style.display = "flex";
-  }
+  wallpapers.style.display = (wallpapers.style.display === "flex") ? "none" : "flex";
 }
 
 // Toggle category open/close
