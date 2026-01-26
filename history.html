@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>History of Frutiger Aero</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ===============================
+   THEME VARIABLES (same as Home)
+   =============================== */
+body {
+  --bg-main: linear-gradient(135deg, #1fa2ff, #12d8fa, #a6ffcb);
+  --panel: rgba(255,255,255,0.55);
+  --accent: #6ecbff;
+  --text: #003b44;
+  --button: linear-gradient(#ffffff, #9eefff);
+  --button-glow: rgba(255,255,255,0.3);
+}
+
+/* Aero */
+body[data-theme="aero"] {
+  --bg-main: linear-gradient(135deg, #1fa2ff, #12d8fa, #a6ffcb);
+  --panel: rgba(255,255,255,0.55);
+  --accent: #6ecbff;
+  --text: #003b44;
+  --button: linear-gradient(#ffffff, #9eefff);
+  --button-glow: rgba(255,255,255,0.3);
+}
+
+/* Eco */
+body[data-theme="eco"] {
+  --bg-main: linear-gradient(135deg, #2ecc71, #a8e6cf);
+  --panel: rgba(240,255,240,0.65);
+  --accent: #4caf50;
+}
+
+/* Dorfic */
+body[data-theme="dorfic"] {
+  --bg-main: linear-gradient(135deg, #c79081, #dfa579);
+  --panel: rgba(255,245,235,0.65);
+  --accent: #a97155;
+}
+
+/* Aqua */
+body[data-theme="aqua"] {
+  --bg-main: linear-gradient(135deg, #0077be, #00c6ff);
+  --panel: rgba(220,245,255,0.55);
+  --accent: #00bcd4;
+}
+
+/* Metro */
+body[data-theme="metro"] {
+  --bg-main: linear-gradient(135deg, #ff4ecb, #ff8aff, #ffe0ff);
+  --panel: rgba(255,255,255,0.7);
+  --accent: #ff4ecb;
+  --text: #111;
+  --button: linear-gradient(#ffb3ff, #ff4ecb);
+  --button-glow: rgba(255,255,255,0.5);
+}
+
+/* Windows XP */
+body[data-theme="xp"] {
+  --bg-main: #ffffff;
+  --panel: #e6e6e6;
+  --accent: #0a64ad;
+  --text: #111;
+  --button: #00b200;
+  --button-glow: rgba(0,0,0,0);
+}
+
+/* ===============================
+   BASE & LAYOUT (same as site)
+   =============================== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: var(--bg-main);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 24px;
+  background: var(--panel);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.25);
+}
+.navbar img { height: 100px; }
+.navbar a {
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: var(--button);
+  color: var(--text);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.8), 0 6px 15px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+.navbar a:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.9), 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  padding: 22px;
+  background: var(--panel);
+  backdrop-filter: blur(20px);
+  box-shadow: 6px 0 25px rgba(0,0,0,0.25);
+  border-radius: 0 20px 20px 0;
+}
+.sidebar h3 { margin-top:0; }
+.sidebar a, .theme-btn {
+  display: block;
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  border-radius: 20px;
+  background: var(--button);
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: inset 0 2px 2px var(--button-glow), 0 5px 12px rgba(0,0,0,0.25);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.sidebar a:hover, .theme-btn:hover {
+  transform: translateX(6px);
+  box-shadow: inset 0 2px 2px var(--button-glow), 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Main & panel */
+.main { flex: 1; padding: 40px; }
+.panel {
+  padding: 40px;
+  border-radius: 30px;
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+}
+
+/* Hero image */
+.history-hero {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: 25px;
+  margin-bottom: 30px;
+  box-shadow:
+    inset 0 2px 2px rgba(255,255,255,0.6),
+    0 12px 30px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+
+/* Section headers */
+.history-section {
+  margin-bottom: 36px;
+}
+.history-section h2 {
+  margin-top: 0;
+  color: var(--accent);
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.history-section p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+</style>
+</head>
+
+<body data-theme="aero">
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <img src="D67FAC9A-50ED-4840-9A70-8220A74C6029.png" alt="Frutiger Aero Logo">
+  <a href="index.html">Home</a>
+  <a href="wallpapers.html">Wallpapers</a>
+  <a href="history.html">History</a>
+</div>
+
+<div class="container">
+  <aside class="sidebar">
+    <h3>History Sections</h3>
+    <a href="#origins">Origins</a>
+    <a href="#name">Name & Meaning</a>
+    <a href="#peak">Peak Era</a>
+    <a href="#decline">Decline</a>
+    <a href="#revival">Revival</a>
+    <a href="#subgenres">Subgenres</a>
+  </aside>
+
+  <main class="main">
+    <div class="panel">
+
+      <!-- Hero Image -->
+      <img src="Aero.webp" alt="Frutiger Aero aesthetic" class="history-hero">
+
+      <!-- Origins -->
+      <section id="origins" class="history-section">
+        <h2>Early 2000s — Origins</h2>
+        <p>
+          The Frutiger Aero aesthetic grew out of the early 2000s tech design era,
+          where interfaces aimed to feel friendly, polished, and forward-looking.
+          This visual language favoured glossy surfaces, soft gradients, and semi-transparent layers
+          that looked like glass or water.
+        </p>
+        <p>
+          These visual elements became widespread in operating systems, software, and product branding,
+          influencing how people saw technology — not as cold code, but as something warm and accessible.
+        </p>
+      </section>
+
+      <hr>
+
+      <!-- Name & Meaning -->
+      <section id="name" class="history-section">
+        <h2>The Name “Frutiger Aero”</h2>
+        <p>
+          The name “Frutiger Aero” wasn’t used during the early 2000s. It was coined later
+          to describe this aesthetic as a distinct category within design history.
+        </p>
+        <p>
+          “Frutiger” nods to the humanist sans-serif font family that influenced many UI typefaces
+          of the era (such as Segoe UI). “Aero” refers to the translucent, glossy style exemplified
+          by interface systems like Windows Vista Aero.
+        </p>
+      </section>
+
+      <hr>
+
+      <!-- Peak Era -->
+      <section id="peak" class="history-section">
+        <h2>Peak Years: Mid-2000s to Early 2010s</h2>
+        <p>
+          During its peak, this aesthetic dominated:
+        </p>
+        <ul>
+          <li>Operating system interfaces (e.g., Windows Vista/7 Aero, Apple Aqua)</li>
+          <li>Software UI with glossy buttons and glass-like layers</li>
+          <li>Advertising and branding that used light, nature, and polished surfaces</li>
+        </ul>
+        <p>
+          The goal was to combine technology with optimism — smooth plastics, glassy surfaces, and
+          warm color gradients made tech feel more approachable and futuristic.
+        </p>
+      </section>
+
+      <hr>
+
+      <!-- Decline -->
+      <section id="decline" class="history-section">
+        <h2>Decline — Flat Design Takes Over</h2>
+        <p>
+          As design evolved in the 2010s, minimalist and flat styles began to replace Frutiger Aero’s
+          glossy, layered look. Modern systems prioritized simplicity and performance on mobile devices,
+          pushing glassy skeuomorphic styles out of mainstream design.
+        </p>
+      </section>
+
+      <hr>
+
+      <!-- Revival -->
+      <section id="revival" class="history-section">
+        <h2>Revival — Why It Came Back</h2>
+        <p>
+          Around the early 2020s, Frutiger Aero began resurfacing online, not through corporate design
+          but through enthusiast communities. Nostalgia for early-2000s digital aesthetics helped fuel
+          renewed interest in glossy gradients, floating light, and visually rich UI language.
+        </p>
+        <p>
+          This revival taps into a feeling of “the future we were promised but never got,” resonating
+          with people who grew up with the original aesthetic and younger audiences curious about that era.
+        </p>
+      </section>
+
+      <hr>
+
+      <!-- Subgenres -->
+      <section id="subgenres" class="history-section">
+        <h2>Subgenres of Frutiger Aero</h2>
+        <p>
+          As the aesthetic spread in online communities, people identified substyles such as:
+        </p>
+        <ul>
+          <li><strong>Frutiger Aqua</strong> – water, glass, cool blues</li>
+          <li><strong>Frutiger Eco</strong> – nature and green tones</li>
+          <li><strong>Frutiger Metro</strong> – flatter, bright palette</li>
+          <li><strong>Cyber Glacier</strong> – crystalline, cool minimalism</li>
+        </ul>
+        <p>
+          These subgenres show how the core ideas of light, optimism, and approachable design have
+          inspired many variations over time.
+        </p>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+/* Theme persistence (same as Home/Wallpapers) */
+function setTheme(theme) {
+  document.body.setAttribute("data-theme", theme);
+  localStorage.setItem("site-theme", theme);
+}
+(function(){
+  const saved = localStorage.getItem("site-theme");
+  if (saved) document.body.setAttribute("data-theme", saved);
+})();
+</script>
+
+</body>
+</html>
