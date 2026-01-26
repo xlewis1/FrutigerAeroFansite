@@ -383,10 +383,10 @@ function setTheme(theme) {
    ================================================== */
 function toggleCategory(header) {
   const wallpapers = header.nextElementSibling;
-  if(wallpapers.style.display === "grid") {
+  if(wallpapers.style.display === "flex") {
     wallpapers.style.display = "none";
   } else {
-    wallpapers.style.display = "grid";
+    wallpapers.style.display = "flex";
   }
 }
 
