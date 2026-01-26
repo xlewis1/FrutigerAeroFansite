@@ -380,15 +380,12 @@ function setTheme(theme) {
 /* ==================================================
    Toggle category visibility
    ================================================== */
+// Toggle category open/close
 function toggleCategory(header) {
   const wallpapers = header.nextElementSibling;
-  wallpapers.style.display = (wallpapers.style.display === "flex") ? "none" : "flex";
-}
-
-// Toggle category open/close
-function toggleCategory(el) {
-  const wallpapers = el.nextElementSibling;
-  wallpapers.style.display = (wallpapers.style.display === 'flex') ? 'none' : 'flex';
+  // Check computed style instead of inline style
+  const isOpen = window.getComputedStyle(wallpapers).display !== "none";
+  wallpapers.style.display = isOpen ? "none" : "flex";
 }
 
 // Lightbox logic
