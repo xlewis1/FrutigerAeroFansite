@@ -2,112 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MSN Buddy Mini Game</title>
+<title>MSN Buddy Mini-Game</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body {
-    margin: 0;
-    font-family: "Segoe UI", Tahoma, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #a6ffcb;
-  }
+/* =============================== BASE =============================== */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #ccefff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  .game-panel {
-    position: relative;
-    width: 800px;
-    height: 500px;
-    border-radius: 25px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-  }
+/* PANEL */
+.panel {
+  margin-top: 30px;
+  padding: 30px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(16px);
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+}
 
-  .buddy {
-    position: absolute;
-    bottom: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    animation: jump 1s ease-in-out infinite;
-  }
+/* TITLE */
+.panel h1 {
+  margin: 0 0 10px 0;
+  color: #003b44;
+}
 
-  @keyframes jump {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-15px); }
-  }
+/* BUDDY SELECTION */
+.buddy-select {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
 
-  .buttons-panel {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(12px);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-  }
+.buddy-option {
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.buddy-option img {
+  width: 80px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+}
+.buddy-option:hover {
+  transform: scale(1.1);
+}
 
-  .buttons-panel button {
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background: linear-gradient(#ffffff, #9eefff);
-    cursor: pointer;
-    font-weight: bold;
-    color: #003b44;
-    box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 5px 12px rgba(0,0,0,0.25);
-    transition: filter 0.2s ease;
-  }
+/* GAME AREA */
+#game-area {
+  position: relative;
+  margin-top: 20px;
+  width: 100%;
+  height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
 
-  .buttons-panel button:hover { filter: brightness(1.2); }
+/* BUDDY */
+.buddy {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  transition: transform 0.2s;
+  animation: bounce 1s ease-in-out infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-15px); }
+}
+.buddy.excited { animation: bounceExcited 0.8s ease-in-out infinite; }
+@keyframes bounceExcited {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-35px); }
+}
+.buddy.tired { animation: bounceTired 1.5s ease-in-out infinite; }
+@keyframes bounceTired {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-8px); }
+}
+/* Trick */
+@keyframes buddy-trick {
+  0% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  25% { transform: translateX(-50%) translateY(-40px) rotate(45deg); }
+  50% { transform: translateX(-50%) translateY(-60px) rotate(180deg); }
+  75% { transform: translateX(-50%) translateY(-40px) rotate(315deg); }
+  100% { transform: translateX(-50%) translateY(0) rotate(360deg); }
+}
+.buddy.trick { animation: buddy-trick 1.5s ease-in-out forwards; }
 
-  .overlay {
-    position: absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 18px;
-    flex-direction: column;
-  }
+/* BUTTONS */
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 20px;
+}
+.buttons button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  background: linear-gradient(#ffffff, #9eefff);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 5px 12px rgba(0,0,0,0.2);
+  transition: filter 0.2s ease;
+}
+.buttons button:hover { filter: brightness(1.2); }
 
-  .overlay button {
-    margin-top: 20px;
-  }
+/* FLOATING POINTS */
+.floating-points {
+  position: absolute;
+  font-weight: bold;
+  font-size: 20px;
+  color: #00bfff;
+  pointer-events: none;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* RETURN HOME */
+.return-home {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: linear-gradient(#ffffff, #9eefff);
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  color: #003b44;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 5px 12px rgba(0,0,0,0.2);
+}
+.return-home:hover { filter: brightness(1.2); }
 </style>
 </head>
 <body>
 
-<div class="game-panel" id="game-panel">
-  <div class="overlay" id="overlay">
-    <h2>Select your buddy</h2>
-    <div>
-      <button data-color="blue">Blue Buddy</button>
-      <button data-color="green">Green Buddy</button>
-      <button data-color="pink">Pink Buddy</button>
-      <button data-color="yellow">Yellow Buddy</button>
+<div class="panel">
+  <h1>MSN Buddy Mini-Game</h1>
+  <p id="game-message">Select your buddy to start!</p>
+
+  <!-- Buddy Selection -->
+  <div class="buddy-select" id="buddy-selection">
+    <div class="buddy-option" data-color="blue">
+      <img src="IMG_1382.png" alt="Blue Buddy">
+      <p>Blue</p>
+    </div>
+    <div class="buddy-option" data-color="green">
+      <img src="IMG_1384.png" alt="Green Buddy">
+      <p>Green</p>
+    </div>
+    <div class="buddy-option" data-color="pink">
+      <img src="IMG_1383.png" alt="Pink Buddy">
+      <p>Pink</p>
+    </div>
+    <div class="buddy-option" data-color="yellow">
+      <img src="IMG_1385.png" alt="Yellow Buddy">
+      <p>Yellow</p>
     </div>
   </div>
-  <img src="" alt="Buddy" class="buddy" id="buddy" style="display:none;">
-  <div class="buttons-panel">
+
+  <!-- Game Area -->
+  <div id="game-area"></div>
+
+  <!-- Action Buttons -->
+  <div class="buttons">
     <button id="feed-btn">Feed</button>
-    <button id="sleep-btn">Sleep</button>
     <button id="play-btn">Play</button>
-    <button id="home-btn">Return Home</button>
+    <button id="sleep-btn">Sleep</button>
   </div>
+
+  <a class="return-home" href="index.html">Return Home</a>
 </div>
 
 <script>
+// ===== Global Variables =====
+let buddyColor = localStorage.getItem('buddyColor') || null;
+let buddyHunger = parseInt(localStorage.getItem('buddyHunger')) || 50;
+let buddyHappiness = parseInt(localStorage.getItem('buddyHappiness')) || 50;
+let buddyEnergy = parseInt(localStorage.getItem('buddyEnergy')) || 50;
+const gameArea = document.getElementById('game-area');
+const messageEl = document.getElementById('game-message');
+
+// Buddy and house mapping
 const buddies = {
   blue: { img: 'IMG_1382.png', house: 'IMG_1388.jpeg' },
   green: { img: 'IMG_1384.png', house: 'IMG_1387.jpeg' },
@@ -115,72 +208,101 @@ const buddies = {
   yellow: { img: 'IMG_1385.png', house: 'IMG_1389.jpeg' }
 };
 
-const overlay = document.getElementById('overlay');
-const buddyEl = document.getElementById('buddy');
-const gamePanel = document.getElementById('game-panel');
+let buddy = null;
 
-let selectedBuddy = localStorage.getItem('msnBuddy') || null;
-let status = { hunger: 50, energy: 50, happiness: 50 };
-
-function updateBuddyDisplay() {
-  if (!selectedBuddy) return;
-  buddyEl.src = buddies[selectedBuddy].img;
-  buddyEl.style.display = 'block';
-  gamePanel.style.backgroundImage = `url('${buddies[selectedBuddy].house}')`;
-  overlay.style.display = 'none';
-  localStorage.setItem('msnBuddy', selectedBuddy);
-  localStorage.setItem('msnStatus', JSON.stringify(status));
+// ===== Functions =====
+function initGame() {
+  if(buddyColor) {
+    startBuddy(buddyColor);
+  }
 }
 
-// If a buddy is already selected, skip overlay
-if (selectedBuddy) {
-  const savedStatus = JSON.parse(localStorage.getItem('msnStatus'));
-  if(savedStatus) status = savedStatus;
-  updateBuddyDisplay();
+// Start buddy
+function startBuddy(color) {
+  buddyColor = color;
+  localStorage.setItem('buddyColor', color);
+
+  gameArea.style.backgroundImage = `url(${buddies[color].house})`;
+  gameArea.innerHTML = `<img src="${buddies[color].img}" class="buddy" id="buddy">`;
+  buddy = document.getElementById('buddy');
+  document.getElementById('buddy-selection').style.display = 'none';
+  messageEl.textContent = "Take care of your buddy!";
+
+  updateBuddyAnimation();
+  saveStats();
 }
 
-// Buddy selection buttons
-overlay.querySelectorAll('button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    selectedBuddy = btn.dataset.color;
-    updateBuddyDisplay();
+// Update animation based on state
+function updateBuddyAnimation() {
+  if(buddyHunger < 30 || buddyEnergy < 30) {
+    buddy.className = 'buddy tired';
+  } else if(buddyHappiness > 70) {
+    buddy.className = 'buddy excited';
+  } else {
+    buddy.className = 'buddy';
+  }
+}
+
+// Save stats to local storage
+function saveStats() {
+  localStorage.setItem('buddyHunger', buddyHunger);
+  localStorage.setItem('buddyHappiness', buddyHappiness);
+  localStorage.setItem('buddyEnergy', buddyEnergy);
+}
+
+// ===== Buddy Selection =====
+document.querySelectorAll('.buddy-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    startBuddy(opt.dataset.color);
   });
 });
 
-// Button actions
-document.getElementById('feed-btn').addEventListener('click', () => {
-  status.hunger = Math.min(100, status.hunger + 20);
-  jump('active');
-  saveStatus();
-});
-document.getElementById('sleep-btn').addEventListener('click', () => {
-  status.energy = Math.min(100, status.energy + 20);
-  jump('slow');
-  saveStatus();
-});
-document.getElementById('play-btn').addEventListener('click', () => {
-  status.happiness = Math.min(100, status.happiness + 20);
-  jump('high');
-  saveStatus();
-});
-document.getElementById('home-btn').addEventListener('click', () => {
-  window.location.href = 'index.html';
+// ===== Actions =====
+const feedBtn = document.getElementById('feed-btn');
+let lastFeedTime = 0;
+
+feedBtn.addEventListener('click', () => {
+  if(!buddy) return;
+  const now = Date.now();
+  let points = 1;
+  if(now - lastFeedTime < 400) points = 2; // double tap
+  lastFeedTime = now;
+
+  buddyHunger = Math.min(buddyHunger + points*5, 100);
+  updateBuddyAnimation();
+  saveStats();
+
+  // Floating points
+  const pointEl = document.createElement('div');
+  pointEl.className = 'floating-points';
+  pointEl.textContent = `+${points}`;
+  gameArea.appendChild(pointEl);
+  pointEl.animate([
+    { transform: 'translateY(0)', opacity: 1 },
+    { transform: 'translateY(-60px)', opacity: 0 }
+  ], { duration: 800, easing: 'ease-out' });
+  setTimeout(() => pointEl.remove(), 800);
 });
 
-function jump(type) {
-  let height = 15;
-  let speed = 1;
-  if(type === 'high') height = 40;
-  if(type === 'slow') speed = 2;
-  buddyEl.style.animation = `jump ${speed}s ease-in-out infinite`;
-  buddyEl.style.transform = `translateX(-50%) translateY(0)`;
-  buddyEl.style.transition = `transform ${speed/2}s`;
-}
+const playBtn = document.getElementById('play-btn');
+playBtn.addEventListener('click', () => {
+  if(!buddy) return;
+  buddy.classList.add('trick');
+  buddyHappiness = Math.min(buddyHappiness + 5, 100);
+  updateBuddyAnimation();
+  saveStats();
+  setTimeout(() => buddy.classList.remove('trick'), 1500);
+});
 
-// Save status to local storage
-function saveStatus() {
-  localStorage.setItem('msnStatus', JSON.stringify(status));
-}
+const sleepBtn = document.getElementById('sleep-btn');
+sleepBtn.addEventListener('click', () => {
+  if(!buddy) return;
+  buddyEnergy = Math.min(buddyEnergy + 10, 100);
+  updateBuddyAnimation();
+  saveStats();
+});
+
+initGame();
 </script>
 
 </body>
