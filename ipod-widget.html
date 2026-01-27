@@ -1,62 +1,123 @@
-<!-- ===============================
-     Frutiger Aero iPod Widget
-     =============================== -->
-<div id="ipod-widget">
-  <img
-    id="ipod-img"
-    src="1C831930-A3B1-4700-8137-6A2EE25FB335.png"
-    alt="Frutiger Aero iPod"
-  >
-  <audio id="ipod-audio" preload="auto">
-    <source src="Frutiger1.mp3.mp3" type="audio/mpeg">
-  </audio>
-</div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frutiger Aero iPod Music Widget</title>
 <style>
-#ipod-widget {
+/* Base body styling for testing */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* iPod container */
+.ipod-widget {
   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 120px;
+  height: 220px;
+  background: #e6e6e6;
+  border-radius: 25px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  z-index: 1000;
+  z-index: 9999;
 }
 
-#ipod-img {
+/* iPod screen (album graphic) */
+.ipod-screen {
+  width: 100px;
+  height: 100px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  transition: transform 0.3s linear;
+}
+
+/* spinning animation when playing */
+.spin {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg);}
+  to { transform: rotate(360deg);}
+}
+
+/* Play/pause indicator */
+.play-pause {
+  font-size: 14px;
+  color: #003b44;
+  font-weight: bold;
+}
+
+/* Optional shadow/glass effect for the iPod */
+.ipod-widget::before {
+  content: "";
+  position: absolute;
+  top:0;
+  left:0;
   width: 100%;
-  user-select: none;
-  -webkit-user-drag: none;
-  filter: drop-shadow(0 12px 30px rgba(0,0,0,0.4));
-}
-
-/* Rotate while playing */
-#ipod-widget.playing #ipod-img {
-  animation: ipod-spin 3s linear infinite;
-}
-
-@keyframes ipod-spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  height: 100%;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.2);
+  pointer-events: none;
 }
 </style>
+</head>
+<body>
+
+<div class="ipod-widget" id="ipodWidget">
+  <img src="1C831930-A3B1-4700-8137-6A2EE25FB335.png" alt="iPod Graphic" class="ipod-screen" id="ipodScreen">
+  <div class="play-pause" id="playPauseText">Play</div>
+</div>
+
+<audio id="ipodAudio" src="Frutiger1.mp3.mp3"></audio>
 
 <script>
-(() => {
-  const widget = document.getElementById("ipod-widget");
-  const audio  = document.getElementById("ipod-audio");
+// Grab elements
+const ipodWidget = document.getElementById('ipodWidget');
+const ipodScreen = document.getElementById('ipodScreen');
+const playPauseText = document.getElementById('playPauseText');
+const ipodAudio = document.getElementById('ipodAudio');
 
-  widget.addEventListener("click", () => {
-    if (audio.paused) {
-      audio.play();
-      widget.classList.add("playing");
-    } else {
-      audio.pause();
-      widget.classList.remove("playing");
-    }
-  });
+// Check if audio is already playing from local storage
+if(localStorage.getItem('ipodPlaying') === 'true'){
+  ipodAudio.play();
+  ipodScreen.classList.add('spin');
+  playPauseText.textContent = 'Pause';
+}
 
-  audio.addEventListener("ended", () => {
-    widget.classList.remove("playing");
-  });
-})();
+// Click to toggle play/pause
+ipodWidget.addEventListener('click', () => {
+  if(ipodAudio.paused){
+    ipodAudio.play();
+    ipodScreen.classList.add('spin');
+    playPauseText.textContent = 'Pause';
+    localStorage.setItem('ipodPlaying', 'true');
+  } else {
+    ipodAudio.pause();
+    ipodScreen.classList.remove('spin');
+    playPauseText.textContent = 'Play';
+    localStorage.setItem('ipodPlaying', 'false');
+  }
+});
+
+// Pause audio when page unloads to avoid overlapping
+window.addEventListener('beforeunload', () => {
+  ipodAudio.pause();
+});
 </script>
+
+</body>
+</html>
