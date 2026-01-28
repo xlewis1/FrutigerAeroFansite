@@ -84,6 +84,29 @@ body {
   width: 30px;
   height: 30px;
 }
+
+.song-ticker {
+  width: 100px;
+  font-size: 10px;
+  color: #003b44;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Optional: animated scroll if text is too long */
+@keyframes scrollText {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.song-ticker.scroll {
+  display: inline-block;
+  animation: scrollText 8s linear infinite;
+}
+  
 </style>
 </head>
 
@@ -103,6 +126,7 @@ body {
   <div class="control play" id="playBtn"></div>
   <div class="control prev" id="prevBtn"></div>
   <div class="control next" id="nextBtn"></div>
+  <div class="song-ticker" id="songTicker">Frutiger1.mp3.mp3</div>
 </div>
 
 <audio id="audio"></audio>
@@ -111,13 +135,16 @@ body {
 const tracks = [
   "Frutiger1.mp3.mp3",
   "Takeshi Abo - Hologramm.mp3",
-  "Hello Windows Vista.mp3"
+  "Hello Windows Vista.mp3",
+  "r e f l e c t i o n s.mp3",
+  "scizzie - aquatic ambience.mp3",
+  "Lotus Waters.mp3"
 ];
 
 const audio = document.getElementById("audio");
 const ipodImg = document.getElementById("ipodImg");
 const ipod = document.getElementById("ipod");
-
+const songTicker = document.getElementById('songTicker');
 let index = parseInt(localStorage.getItem("ipodTrack")) || 0;
 let playing = localStorage.getItem("ipodPlaying") === "true";
 let hidden = localStorage.getItem("ipodHidden") === "true";
@@ -165,13 +192,21 @@ function changeTrack() {
   audio.play();
   ipodImg.classList.add("spin");
   localStorage.setItem("ipodPlaying", "true");
+
+  songTicker.textContent = tracks[index];
+  if(tracks[index].length > 15){
+    songTicker.classList.add('scroll');
+  } else {
+    songTicker.classList.remove('scroll');
+  }
 }
 
-/* Auto next */
+// Auto next track when current one ends
 audio.addEventListener("ended", () => {
   index = (index + 1) % tracks.length;
   changeTrack();
 });
+  
 </script>
 
 </body>
