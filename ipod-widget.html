@@ -10,7 +10,7 @@ body {
   background: transparent;
 }
 
-/* iPod/CD wrapper */
+/* CD wrapper */
 .ipod {
   position: fixed;
   bottom: 20px;
@@ -47,7 +47,7 @@ body {
   border-radius: 50%;
 }
 
-/* Spin animation when playing */
+/* Spin animation */
 .spin {
   animation: spin 5s linear infinite;
 }
@@ -57,33 +57,23 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* Invisible control zones */
-.control {
-  position: absolute;
+/* Controls */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
 }
 
-.play {
-  bottom: -35px;
-  left: 50%;
-  width: 40px;
-  height: 20px;
-  transform: translateX(-50%);
+.controls button {
+  width: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #e6e6e6;
+  border: 1px solid #aaa;
+  border-radius: 4px;
 }
 
-.prev {
-  bottom: -35px;
-  left: 0;
-  width: 40px;
-  height: 20px;
-}
-
-.next {
-  bottom: -35px;
-  right: 0;
-  width: 40px;
-  height: 20px;
-}
-
+/* Song ticker */
 .song-ticker {
   width: 120px;
   font-size: 10px;
@@ -113,9 +103,11 @@ body {
   <div class="ipod-close" id="closeBtn">×</div>
   <img src="IMG_1551.png" class="ipod-img" id="ipodImg" alt="CD">
 
-  <div class="control play" id="playBtn">▶️</div>
-  <div class="control prev" id="prevBtn">⏮️</div>
-  <div class="control next" id="nextBtn">⏭️</div>
+  <div class="controls">
+    <button id="prevBtn">Prev</button>
+    <button id="playBtn">Play</button>
+    <button id="nextBtn">Next</button>
+  </div>
 
   <div class="song-ticker" id="songTicker">Frutiger1.mp3.mp3</div>
 </div>
@@ -141,6 +133,7 @@ let index = parseInt(localStorage.getItem("ipodTrack")) || 0;
 let playing = false;
 let offsetX, offsetY, isDragging = false;
 
+// Initialize
 audio.src = tracks[index];
 songTicker.textContent = tracks[index];
 
@@ -150,23 +143,28 @@ document.getElementById("playBtn").onclick = () => {
     audio.play();
     ipodImg.classList.add("spin");
     playing = true;
+    document.getElementById("playBtn").textContent = "Pause";
   } else {
     audio.pause();
     ipodImg.classList.remove("spin");
     playing = false;
+    document.getElementById("playBtn").textContent = "Play";
   }
 };
 
-// Next
-document.getElementById("nextBtn").onclick = nextTrack;
+// Next track
+document.getElementById("nextBtn").onclick = () => {
+  index = (index + 1) % tracks.length;
+  changeTrack();
+};
 
-// Prev
+// Prev track
 document.getElementById("prevBtn").onclick = () => {
   index = (index - 1 + tracks.length) % tracks.length;
   changeTrack();
 };
 
-// Close
+// Close widget
 document.getElementById("closeBtn").onclick = () => {
   audio.pause();
   ipod.style.display = "none";
@@ -187,13 +185,7 @@ function changeTrack(){
   });
 }
 
-// Next track helper
-function nextTrack(){
-  index = (index + 1) % tracks.length;
-  changeTrack();
-}
-
-// Fade out audio
+// Fade out
 function fadeOut(audioElem, duration, callback){
   let step = 0.05;
   let interval = duration / (1/step) * 1000;
@@ -208,7 +200,7 @@ function fadeOut(audioElem, duration, callback){
   }, interval);
 }
 
-// Fade in audio
+// Fade in
 function fadeIn(audioElem, duration){
   audioElem.volume = 0;
   audioElem.play();
@@ -225,9 +217,12 @@ function fadeIn(audioElem, duration){
 }
 
 // Auto next track on end
-audio.addEventListener("ended", nextTrack);
+audio.addEventListener("ended", () => {
+  index = (index + 1) % tracks.length;
+  changeTrack();
+});
 
-// Draggable
+// Dragging
 ipod.addEventListener("mousedown", e => {
   isDragging = true;
   offsetX = e.clientX - ipod.offsetLeft;
