@@ -3,21 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frutiger Aero iPod Widget</title>
+<title>Frutiger Aero CD Music Widget</title>
 
 <style>
 body {
   margin: 0;
   background: transparent;
+  font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-/* iPod wrapper */
+/* CD wrapper */
 .ipod {
   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 120px;
-  height: 220px;
+  height: 120px; /* square for circle */
   z-index: 9999;
   user-select: none;
 }
@@ -39,16 +40,16 @@ body {
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-/* iPod image */
+/* CD image */
 .ipod-img {
   width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 22px;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
   cursor: pointer;
 }
 
-/* Spin animation when playing */
+/* Spin animation */
 .spin {
   animation: spin 5s linear infinite;
 }
@@ -64,7 +65,7 @@ body {
 }
 
 .play {
-  bottom: 70px;
+  bottom: -50px;
   left: 50%;
   width: 40px;
   height: 40px;
@@ -72,31 +73,34 @@ body {
 }
 
 .prev {
-  bottom: 75px;
-  left: 15px;
+  bottom: -50px;
+  left: -10px;
   width: 30px;
   height: 30px;
 }
 
 .next {
-  bottom: 75px;
-  right: 15px;
+  bottom: -50px;
+  right: -10px;
   width: 30px;
   height: 30px;
 }
 
+/* Song ticker */
 .song-ticker {
-  width: 100px;
+  position: absolute;
+  bottom: -70px;
+  left: 50%;
+  width: 120px;
   font-size: 10px;
   color: #003b44;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 5px;
   text-align: center;
+  transform: translateX(-50%);
 }
 
-/* Optional: animated scroll if text is too long */
 @keyframes scrollText {
   0% { transform: translateX(100%); }
   100% { transform: translateX(-100%); }
@@ -106,7 +110,6 @@ body {
   display: inline-block;
   animation: scrollText 8s linear infinite;
 }
-  
 </style>
 </head>
 
@@ -114,18 +117,14 @@ body {
 
 <div class="ipod" id="ipod">
   <div class="ipod-close" id="closeBtn">×</div>
-
-  <img
-    src="IMG_1551.png"
-    class="ipod-img"
-    id="ipodImg"
-    alt="iPod"
-  >
+  <img src="IMG_1551.png" class="ipod-img" id="ipodImg" alt="CD">
 
   <!-- Control zones -->
   <div class="control play" id="playBtn"></div>
   <div class="control prev" id="prevBtn"></div>
   <div class="control next" id="nextBtn"></div>
+
+  <!-- Song ticker -->
   <div class="song-ticker" id="songTicker">Frutiger1.mp3.mp3</div>
 </div>
 
@@ -144,30 +143,32 @@ const tracks = [
 const audio = document.getElementById("audio");
 const ipodImg = document.getElementById("ipodImg");
 const ipod = document.getElementById("ipod");
-const songTicker = document.getElementById('songTicker');
+const songTicker = document.getElementById("songTicker");
+
 let index = parseInt(localStorage.getItem("ipodTrack")) || 0;
 let playing = localStorage.getItem("ipodPlaying") === "true";
 let hidden = localStorage.getItem("ipodHidden") === "true";
 
 audio.src = tracks[index];
+songTicker.textContent = tracks[index];
+if(tracks[index].length > 15) songTicker.classList.add("scroll");
 
-if (hidden) ipod.style.display = "none";
-
-if (playing) {
+if(hidden) ipod.style.display = "none";
+if(playing) {
   audio.play();
   ipodImg.classList.add("spin");
 }
 
 /* Controls */
 document.getElementById("playBtn").onclick = () => {
-  if (audio.paused) {
+  if(audio.paused){
     audio.play();
     ipodImg.classList.add("spin");
-    localStorage.setItem("ipodPlaying", "true");
+    localStorage.setItem("ipodPlaying","true");
   } else {
     audio.pause();
     ipodImg.classList.remove("spin");
-    localStorage.setItem("ipodPlaying", "false");
+    localStorage.setItem("ipodPlaying","false");
   }
 };
 
@@ -183,30 +184,26 @@ document.getElementById("prevBtn").onclick = () => {
 
 document.getElementById("closeBtn").onclick = () => {
   ipod.style.display = "none";
-  localStorage.setItem("ipodHidden", "true");
+  localStorage.setItem("ipodHidden","true");
 };
 
-function changeTrack() {
+function changeTrack(){
   audio.src = tracks[index];
   localStorage.setItem("ipodTrack", index);
   audio.play();
   ipodImg.classList.add("spin");
-  localStorage.setItem("ipodPlaying", "true");
+  localStorage.setItem("ipodPlaying","true");
 
   songTicker.textContent = tracks[index];
-  if(tracks[index].length > 15){
-    songTicker.classList.add('scroll');
-  } else {
-    songTicker.classList.remove('scroll');
-  }
+  if(tracks[index].length > 15) songTicker.classList.add("scroll");
+  else songTicker.classList.remove("scroll");
 }
 
-// Auto next track when current one ends
+/* Auto next track */
 audio.addEventListener("ended", () => {
   index = (index + 1) % tracks.length;
   changeTrack();
 });
-  
 </script>
 
 </body>
