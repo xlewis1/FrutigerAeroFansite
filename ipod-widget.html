@@ -8,26 +8,25 @@
 body {
   margin: 0;
   background: transparent;
-  overflow: hidden;
-  font-family: "Segoe UI", Tahoma, sans-serif;
 }
 
-/* Widget container */
-.widget {
+/* iPod/CD wrapper */
+.ipod {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   z-index: 9999;
+  user-select: none;
   cursor: grab;
 }
 
 /* Close button */
-.close-btn {
+.ipod-close {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -8px;
+  right: -8px;
   width: 22px;
   height: 22px;
   background: rgba(255,255,255,0.85);
@@ -41,48 +40,58 @@ body {
   z-index: 10;
 }
 
-/* Disc image */
-.disc {
+/* CD image */
+.ipod-img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  display: block;
-  cursor: pointer;
-  transition: transform 0.2s linear;
 }
 
-/* Spin animation */
+/* Spin animation when playing */
 .spin {
   animation: spin 5s linear infinite;
 }
+
 @keyframes spin {
-  from { transform: rotate(0deg);}
-  to { transform: rotate(360deg);}
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Controls */
-.controls {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 5px;
-  text-align: center;
+/* Invisible control zones */
+.control {
+  position: absolute;
 }
 
-.button {
-  font-size: 18px;
-  cursor: pointer;
-  user-select: none;
-  width: 33%;
+.play {
+  bottom: -35px;
+  left: 50%;
+  width: 40px;
+  height: 20px;
+  transform: translateX(-50%);
 }
 
-/* Song ticker */
+.prev {
+  bottom: -35px;
+  left: 0;
+  width: 40px;
+  height: 20px;
+}
+
+.next {
+  bottom: -35px;
+  right: 0;
+  width: 40px;
+  height: 20px;
+}
+
 .song-ticker {
-  text-align: center;
+  width: 120px;
   font-size: 10px;
   color: #003b44;
-  overflow: hidden;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
   margin-top: 5px;
 }
 
@@ -97,156 +106,148 @@ body {
 }
 </style>
 </head>
+
 <body>
 
-<div class="widget" id="widget">
-  <div class="close-btn" id="closeBtn">×</div>
-  <img src="IMG_1551.png" class="disc" id="discImg" alt="Disc">
-  <div class="controls">
-    <div class="button" id="prevBtn">&#9664;</div>
-    <div class="button" id="playBtn">&#9654;</div>
-    <div class="button" id="nextBtn">&#9654;&#9654;</div>
-  </div>
-  <div class="song-ticker" id="songTicker">Frutiger1.mp3</div>
+<div class="ipod" id="ipod">
+  <div class="ipod-close" id="closeBtn">×</div>
+  <img src="IMG_1551.png" class="ipod-img" id="ipodImg" alt="CD">
+
+  <div class="control play" id="playBtn">▶️</div>
+  <div class="control prev" id="prevBtn">⏮️</div>
+  <div class="control next" id="nextBtn">⏭️</div>
+
+  <div class="song-ticker" id="songTicker">Frutiger1.mp3.mp3</div>
 </div>
 
 <audio id="audio"></audio>
 
 <script>
 const tracks = [
-  "Frutiger1.mp3",
+  "Frutiger1.mp3.mp3",
   "Takeshi Abo - Hologramm.mp3",
   "Hello Windows Vista.mp3",
+  "r e f l e c t i o n s.mp3",
+  "scizzie - aquatic ambience.mp3",
+  "Lotus Waters.mp3"
 ];
 
+const ipod = document.getElementById("ipod");
 const audio = document.getElementById("audio");
-const disc = document.getElementById("discImg");
-const playBtn = document.getElementById("playBtn");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const songTicker = document.getElementById("songTicker");
-const widget = document.getElementById("widget");
-const closeBtn = document.getElementById("closeBtn");
+const ipodImg = document.getElementById("ipodImg");
+const songTicker = document.getElementById('songTicker');
 
-let index = 0;
+let index = parseInt(localStorage.getItem("ipodTrack")) || 0;
 let playing = false;
+let offsetX, offsetY, isDragging = false;
 
-// --- Play/Pause toggle ---
-playBtn.onclick = () => {
+audio.src = tracks[index];
+songTicker.textContent = tracks[index];
+
+// Play/Pause
+document.getElementById("playBtn").onclick = () => {
   if(audio.paused){
     audio.play();
-    disc.classList.add("spin");
+    ipodImg.classList.add("spin");
     playing = true;
   } else {
     audio.pause();
-    disc.classList.remove("spin");
+    ipodImg.classList.remove("spin");
     playing = false;
   }
 };
 
-// --- Next track ---
-nextBtn.onclick = () => {
-  nextTrack();
-};
+// Next
+document.getElementById("nextBtn").onclick = nextTrack;
 
-// --- Previous track ---
-prevBtn.onclick = () => {
+// Prev
+document.getElementById("prevBtn").onclick = () => {
   index = (index - 1 + tracks.length) % tracks.length;
   changeTrack();
 };
 
-// --- Close widget ---
-closeBtn.onclick = () => {
-  widget.style.display = "none";
+// Close
+document.getElementById("closeBtn").onclick = () => {
   audio.pause();
+  ipod.style.display = "none";
 };
 
-// --- Change track function with fade ---
+// Change track with fade
 function changeTrack(){
   fadeOut(audio, 0.5, () => {
     audio.src = tracks[index];
     songTicker.textContent = tracks[index];
+    if(tracks[index].length > 15){
+      songTicker.classList.add('scroll');
+    } else {
+      songTicker.classList.remove('scroll');
+    }
     fadeIn(audio, 0.5);
+    if(playing) ipodImg.classList.add("spin");
   });
 }
 
-// --- Next track helper ---
+// Next track helper
 function nextTrack(){
   index = (index + 1) % tracks.length;
   changeTrack();
 }
 
-// --- Fade functions ---
-function fadeOut(audioEl, duration, callback){
-  let vol = audioEl.volume;
-  const step = 50 / (duration*1000);
-  const fade = setInterval(()=>{
+// Fade out audio
+function fadeOut(audioElem, duration, callback){
+  let step = 0.05;
+  let interval = duration / (1/step) * 1000;
+  let vol = audioElem.volume;
+  let fade = setInterval(()=>{
     vol -= step;
     if(vol <= 0){
       clearInterval(fade);
-      audioEl.volume = 1;
-      audioEl.pause();
+      audioElem.volume = 1;
       callback();
-    } else {
-      audioEl.volume = vol;
-    }
-  },50);
+    } else audioElem.volume = vol;
+  }, interval);
 }
 
-function fadeIn(audioEl, duration){
-  audioEl.volume = 0;
-  audioEl.play();
+// Fade in audio
+function fadeIn(audioElem, duration){
+  audioElem.volume = 0;
+  audioElem.play();
+  let step = 0.05;
+  let interval = duration / (1/step) * 1000;
   let vol = 0;
-  const step = 50 / (duration*1000);
-  const fade = setInterval(()=>{
+  let fade = setInterval(()=>{
     vol += step;
-    if(vol >=1){
+    if(vol >= 1){
+      audioElem.volume = 1;
       clearInterval(fade);
-      audioEl.volume = 1;
-    } else {
-      audioEl.volume = vol;
-    }
-  },50);
+    } else audioElem.volume = vol;
+  }, interval);
 }
 
-// --- Auto next with fade ---
+// Auto next track on end
 audio.addEventListener("ended", nextTrack);
 
-// --- Update ticker scroll ---
-function updateTicker(){
-  if(tracks[index].length > 15){
-    songTicker.classList.add('scroll');
-  } else {
-    songTicker.classList.remove('scroll');
+// Draggable
+ipod.addEventListener("mousedown", e => {
+  isDragging = true;
+  offsetX = e.clientX - ipod.offsetLeft;
+  offsetY = e.clientY - ipod.offsetTop;
+  ipod.style.cursor = 'grabbing';
+});
+
+document.addEventListener("mousemove", e => {
+  if(isDragging){
+    ipod.style.left = (e.clientX - offsetX) + 'px';
+    ipod.style.top = (e.clientY - offsetY) + 'px';
   }
-}
-updateTicker();
-
-// --- Initialize first track ---
-audio.src = tracks[index];
-songTicker.textContent = tracks[index];
-
-// --- Make draggable ---
-let offsetX, offsetY, isDown = false;
-
-widget.addEventListener("mousedown", e=>{
-  isDown = true;
-  offsetX = e.clientX - widget.offsetLeft;
-  offsetY = e.clientY - widget.offsetTop;
-  widget.style.cursor = "grabbing";
 });
 
-document.addEventListener("mouseup", ()=>{
-  isDown = false;
-  widget.style.cursor = "grab";
+document.addEventListener("mouseup", () => {
+  if(isDragging){
+    isDragging = false;
+    ipod.style.cursor = 'grab';
+  }
 });
-
-document.addEventListener("mousemove", e=>{
-  if(!isDown) return;
-  widget.style.left = (e.clientX - offsetX) + "px";
-  widget.style.top = (e.clientY - offsetY) + "px";
-});
-
 </script>
 
 </body>
