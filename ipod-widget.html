@@ -129,7 +129,7 @@ body {
   <div class="song-ticker" id="songTicker">Frutiger1.mp3.mp3</div>
 </div>
 
-<audio id="audio" volume="1"></audio>
+<audio id="audio"></audio>
 
 <script>
 const tracks = [
@@ -147,13 +147,14 @@ const audio = document.getElementById("audio");
 const songTicker = document.getElementById("songTicker");
 
 let index = parseInt(localStorage.getItem("ipodTrack")) || 0;
-let playing = localStorage.getItem("ipodPlaying") === "true";
+let playing = false;
 let hidden = localStorage.getItem("ipodHidden") === "true";
 
 audio.src = tracks[index];
 
 if (hidden) ipod.style.display = "none";
 
+/* Update ticker text */
 function updateTicker() {
   songTicker.textContent = tracks[index];
   if(tracks[index].length > 15){
@@ -162,47 +163,12 @@ function updateTicker() {
     songTicker.classList.remove('scroll');
   }
 }
-
 updateTicker();
 
-if (playing) {
-  audio.play();
-  ipodImg.classList.add("spin");
-}
-
 /* ====================
-   Controls
+   Audio fade functions
 ==================== */
-document.getElementById("playBtn").onclick = () => {
-  if(audio.paused){
-    audio.play();
-    ipodImg.classList.add("spin");
-    localStorage.setItem("ipodPlaying", "true");
-  } else {
-    audio.pause();
-    ipodImg.classList.remove("spin");
-    localStorage.setItem("ipodPlaying", "false");
-  }
-};
-
-document.getElementById("nextBtn").onclick = () => {
-  nextTrack();
-};
-
-document.getElementById("prevBtn").onclick = () => {
-  index = (index - 1 + tracks.length) % tracks.length;
-  changeTrack();
-};
-
-document.getElementById("closeBtn").onclick = () => {
-  ipod.style.display = "none";
-  localStorage.setItem("ipodHidden", "true");
-};
-
-/* ====================
-   Track change with fade
-==================== */
-function fadeAudio(callback) {
+function fadeOutAudio(callback){
   let fadeOutInterval = setInterval(() => {
     if(audio.volume > 0.05){
       audio.volume -= 0.05;
@@ -214,7 +180,7 @@ function fadeAudio(callback) {
   }, 50);
 }
 
-function fadeInAudio() {
+function fadeInAudio(){
   audio.volume = 0;
   let fadeInInterval = setInterval(() => {
     if(audio.volume < 1){
@@ -226,13 +192,17 @@ function fadeInAudio() {
   }, 50);
 }
 
+/* ====================
+   Track change
+==================== */
 function changeTrack() {
-  fadeAudio(() => {
+  fadeOutAudio(() => {
     audio.src = tracks[index];
-    localStorage.setItem("ipodTrack", index);
     audio.play();
     fadeInAudio();
     ipodImg.classList.add("spin");
+    playing = true;
+    localStorage.setItem("ipodTrack", index);
     localStorage.setItem("ipodPlaying", "true");
     updateTicker();
   });
@@ -243,10 +213,40 @@ function nextTrack() {
   changeTrack();
 }
 
-/* Auto next with fade */
-audio.addEventListener("ended", () => {
-  nextTrack();
-});
+function prevTrack() {
+  index = (index - 1 + tracks.length) % tracks.length;
+  changeTrack();
+}
+
+/* ====================
+   Button events
+==================== */
+document.getElementById("playBtn").onclick = () => {
+  if(audio.paused){
+    audio.play();
+    ipodImg.classList.add("spin");
+    playing = true;
+    localStorage.setItem("ipodPlaying", "true");
+  } else {
+    audio.pause();
+    ipodImg.classList.remove("spin");
+    playing = false;
+    localStorage.setItem("ipodPlaying", "false");
+  }
+};
+
+document.getElementById("nextBtn").onclick = nextTrack;
+document.getElementById("prevBtn").onclick = prevTrack;
+
+document.getElementById("closeBtn").onclick = () => {
+  ipod.style.display = "none";
+  localStorage.setItem("ipodHidden", "true");
+};
+
+/* ====================
+   Auto next with fade
+==================== */
+audio.addEventListener("ended", nextTrack);
 
 /* ====================
    Drag-and-drop functionality
