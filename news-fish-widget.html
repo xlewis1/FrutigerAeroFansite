@@ -1,0 +1,47 @@
+<!-- Frutiger Aero News Fish Widget -->
+<div class="news-bubble" id="newsBubble">
+  <img src="259CBB1B-83EE-4820-8A36-DC96750B0F65.png" alt="Frutiger Aero Fish">
+</div>
+
+<style>
+/* Bubble styling */
+.news-bubble {
+  position: fixed;
+  bottom: -60px; /* start just below screen */
+  left: 50px;    /* can randomize for variety */
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+/* Bubble image with float animation */
+.news-bubble img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; /* round bubble */
+  object-fit: cover;
+  animation: floatUp 12s linear infinite;
+}
+
+/* Float upwards with rotation */
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-110vh) rotate(360deg); }
+}
+</style>
+
+<script>
+// Grab bubble element
+const newsBubble = document.getElementById("newsBubble");
+
+// Click opens the news page
+newsBubble.addEventListener("click", () => {
+  window.open("news.html", "_blank"); // replace with your actual news page
+});
+
+// Optional: randomize starting horizontal position every 12 seconds
+setInterval(() => {
+  newsBubble.style.left = Math.random() * (window.innerWidth - 60) + "px";
+}, 12000);
+</script>
