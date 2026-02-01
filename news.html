@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frutiger Aero News</title>
-
 <style>
+/* ===============================
+   BASE & THEME
+   =============================== */
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, sans-serif;
@@ -15,156 +17,150 @@ body {
   min-height: 100vh;
 }
 
-/* Glass panel layout */
+/* Glassy panel */
 .panel {
   position: relative;
-  max-width: 900px;
-  margin: 80px auto;
+  margin: 60px auto;
   padding: 40px;
+  max-width: 900px;
   background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(18px);
   border-radius: 30px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.35);
 }
 
-/* Headings and text */
+/* Titles & text */
 .panel h1 {
-  font-size: 42px;
+  font-size: 48px;
   margin-top: 0;
   text-align: center;
+}
+.panel h2 {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+.panel p {
+  font-size: 18px;
+  line-height: 1.5;
   margin-bottom: 24px;
 }
 
-.game-section {
-  margin-bottom: 30px;
+/* Game section */
+.game {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 40px;
+  align-items: center;
+}
+.game img {
+  width: 200px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+.game .description {
+  flex: 1;
+  min-width: 200px;
 }
 
-.game-section img {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 18px;
-  display: block;
-  margin: 0 auto 12px auto;
-}
-
-/* Game title and link */
-.game-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-/* Steam links */
-.game-link {
-  color: #006db3;
-  text-decoration: underline;
-}
-
-/* Back to home */
+/* Back button */
 .back-btn {
   display: inline-block;
-  margin-top: 20px;
-  padding: 12px 24px;
-  border-radius: 25px;
+  padding: 12px 20px;
   background: linear-gradient(#ffffff, #9eefff);
   color: #003b44;
+  border-radius: 25px;
   text-decoration: none;
   font-weight: bold;
-  box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 6px 15px rgba(0,0,0,0.25);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.8),
+              0 6px 15px rgba(0,0,0,0.25);
   transition: all 0.25s ease;
 }
 .back-btn:hover {
   transform: translateY(-2px);
-  box-shadow: inset 0 2px 2px rgba(255,255,255,0.4), 0 10px 25px rgba(0,0,0,0.35);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.9),
+              0 10px 25px rgba(0,0,0,0.35);
 }
 
-/* Floating fish */
-.fish-bubble {
+/* Floating fish bubbles */
+.fish {
   position: fixed;
-  bottom: -60px;
   width: 60px;
   height: 60px;
-  pointer-events: none;
-  z-index: 10;
+  cursor: pointer;
+  z-index: 0;
 }
-
-.fish-bubble img {
+.fish img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  animation: floatUp 12s linear infinite;
+  object-fit: cover;
+  animation: floatUp linear infinite;
 }
 
+/* Float upwards animation */
 @keyframes floatUp {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(-110vh) rotate(360deg); }
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0.6; }
+  50% { opacity: 0.9; }
+  100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
 }
 </style>
 </head>
-
 <body>
 
 <div class="panel">
   <h1>Frutiger Aero News</h1>
+  <p>Today's news is all about upcoming Frutiger Aero-inspired games on Steam!</p>
 
   <!-- Frutiger Space -->
-  <div class="game-section">
-    <div class="game-title">Frutiger Space</div>
-    <a href="https://store.steampowered.com/app/3591510/Frutiger_Space/" target="_blank" class="game-link">View on Steam</a>
-    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3591510/header.jpg" alt="Frutiger Space Steam Header">
-    <p>
-      A social multiplayer world set in a utopian universe inspired by early internet culture. Meet people, explore environments, join minigames, and customise your Meeple with cosmetics and activities.  [oai_citation:1‡Steam Store](https://store.steampowered.com/app/3591510/Frutiger_Space/?utm_source=chatgpt.com)
-    </p>
+  <div class="game">
+    <img src="IMG_1823.webp" alt="Frutiger Space">
+    <div class="description">
+      <h2>Frutiger Space</h2>
+      <p>A social Frutiger Aero game where you play with friends as MSN buddies. Customize your character and interact with others in a colorful, early-2000s-inspired world. Coming late 2026 on Steam!</p>
+    </div>
   </div>
 
   <!-- Frutiger Home -->
-  <div class="game-section">
-    <div class="game-title">Frutiger Home</div>
-    <a href="https://store.steampowered.com/app/3935530/Frutiger_Home/" target="_blank" class="game-link">View on Steam</a>
-    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3935530/header.jpg" alt="Frutiger Home Steam Header">
-    <p>
-      Coming Q3 2026, this cozy co‑op decorating game lets you design and customise your dream Frutiger‑themed home — alone or with friends.  [oai_citation:2‡Steam Store](https://store.steampowered.com/app/3935530/Frutiger_Home/?utm_source=chatgpt.com)
-    </p>
+  <div class="game">
+    <img src="IMG_1823.webp" alt="Frutiger Home">
+    <div class="description">
+      <h2>Frutiger Home</h2>
+      <p>Build your dream Frutiger Aero house with countless decorations and furniture. Even MSN Buddies can be placed as statues! Explore creative possibilities in this Steam game for fans of the aesthetic.</p>
+    </div>
   </div>
 
-  <!-- The Frutiger Utopia -->
-  <div class="game-section">
-    <div class="game-title">The Frutiger Utopia</div>
-    <a href="https://store.steampowered.com/app/3783250/The_Frutiger_Utopia/" target="_blank" class="game-link">View on Steam</a>
-    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3783250/header.jpg" alt="The Frutiger Utopia Steam Header">
-    <p>
-      A puzzle‑platform adventure with vibrant visuals and charming atmosphere, spanning multiple worlds and creative soundtrack.  [oai_citation:3‡Steam Store](https://store.steampowered.com/app/3783250/The_Frutiger_Utopia/?utm_source=chatgpt.com)
-    </p>
-  </div>
+  <a href="index.html" class="back-btn">Back to Home</a>
+</div>
 
-  <!-- Frutigeropolis: The Promised City -->
-  <div class="game-section">
-    <div class="game-title">Frutigeropolis: The Promised City</div>
-    <a href="https://store.steampowered.com/app/3918250/Frutigeropolis_The_Promised_City/" target="_blank" class="game-link">View on Steam</a>
-    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3918250/header.jpg" alt="Frutigeropolis: The Promised City Steam Header">
-    <p>
-      Explore a serene, surreal city environment shaped by a calm futurist design ethos — coming soon on Steam.  [oai_citation:4‡Steam Store](https://store.steampowered.com/app/3918250/Frutigeropolis_The_Promised_City/?utm_source=chatgpt.com)
-    </p>
-  </div>
-
-  <a class="back-btn" href="index.html">← Back to Home</a>
+<!-- Floating fish -->
+<div class="fish" style="left: 50px; animation-duration: 14s;">
+  <img src="259CBB1B-83EE-4820-8A36-DC96750B0F65.png" alt="Fish">
+</div>
+<div class="fish" style="left: 200px; animation-duration: 18s;">
+  <img src="259CBB1B-83EE-4820-8A36-DC96750B0F65.png" alt="Fish">
+</div>
+<div class="fish" style="left: 350px; animation-duration: 22s;">
+  <img src="259CBB1B-83EE-4820-8A36-DC96750B0F65.png" alt="Fish">
 </div>
 
 <script>
-// Add some floating fish in background
-const numFish = 5;
-for (let i = 0; i < numFish; i++) {
-  const fish = document.createElement("div");
-  fish.className = "fish-bubble";
-  const img = document.createElement("img");
-  img.src = "259CBB1B-83EE-4820-8A36-DC96750B0F65.png";
-  fish.appendChild(img);
+// Randomize fish horizontal positions every few seconds
+const fishes = document.querySelectorAll('.fish');
+setInterval(() => {
+  fishes.forEach(fish => {
+    fish.style.left = Math.random() * (window.innerWidth - 60) + "px";
+  });
+}, 12000);
 
-  fish.style.left = Math.random() * (window.innerWidth - 60) + "px";
-  img.style.animationDuration = (Math.random() * 6 + 8) + "s";
-
-  document.body.appendChild(fish);
-}
+// Click fish opens news.html (optional, can be removed if already here)
+fishes.forEach(fish => {
+  fish.addEventListener("click", () => {
+    alert("This is just a decorative fish on the news page!"); // placeholder
+  });
+});
 </script>
 
 </body>
