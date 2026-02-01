@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frutiger Aero News</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: linear-gradient(135deg, #1fa2ff, #12d8fa, #a6ffcb);
+  color: #003b44;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Glass panel layout */
+.panel {
+  position: relative;
+  max-width: 900px;
+  margin: 80px auto;
+  padding: 40px;
+  background: rgba(255,255,255,0.55);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+}
+
+/* Headings and text */
+.panel h1 {
+  font-size: 42px;
+  margin-top: 0;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.game-section {
+  margin-bottom: 30px;
+}
+
+.game-section img {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 18px;
+  display: block;
+  margin: 0 auto 12px auto;
+}
+
+/* Game title and link */
+.game-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Steam links */
+.game-link {
+  color: #006db3;
+  text-decoration: underline;
+}
+
+/* Back to home */
+.back-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  border-radius: 25px;
+  background: linear-gradient(#ffffff, #9eefff);
+  color: #003b44;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.3), 0 6px 15px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: inset 0 2px 2px rgba(255,255,255,0.4), 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* Floating fish */
+.fish-bubble {
+  position: fixed;
+  bottom: -60px;
+  width: 60px;
+  height: 60px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.fish-bubble img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  animation: floatUp 12s linear infinite;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-110vh) rotate(360deg); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+  <h1>Frutiger Aero News</h1>
+
+  <!-- Frutiger Space -->
+  <div class="game-section">
+    <div class="game-title">Frutiger Space</div>
+    <a href="https://store.steampowered.com/app/3591510/Frutiger_Space/" target="_blank" class="game-link">View on Steam</a>
+    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3591510/header.jpg" alt="Frutiger Space Steam Header">
+    <p>
+      A social multiplayer world set in a utopian universe inspired by early internet culture. Meet people, explore environments, join minigames, and customise your Meeple with cosmetics and activities.  [oai_citation:1‡Steam Store](https://store.steampowered.com/app/3591510/Frutiger_Space/?utm_source=chatgpt.com)
+    </p>
+  </div>
+
+  <!-- Frutiger Home -->
+  <div class="game-section">
+    <div class="game-title">Frutiger Home</div>
+    <a href="https://store.steampowered.com/app/3935530/Frutiger_Home/" target="_blank" class="game-link">View on Steam</a>
+    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3935530/header.jpg" alt="Frutiger Home Steam Header">
+    <p>
+      Coming Q3 2026, this cozy co‑op decorating game lets you design and customise your dream Frutiger‑themed home — alone or with friends.  [oai_citation:2‡Steam Store](https://store.steampowered.com/app/3935530/Frutiger_Home/?utm_source=chatgpt.com)
+    </p>
+  </div>
+
+  <!-- The Frutiger Utopia -->
+  <div class="game-section">
+    <div class="game-title">The Frutiger Utopia</div>
+    <a href="https://store.steampowered.com/app/3783250/The_Frutiger_Utopia/" target="_blank" class="game-link">View on Steam</a>
+    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3783250/header.jpg" alt="The Frutiger Utopia Steam Header">
+    <p>
+      A puzzle‑platform adventure with vibrant visuals and charming atmosphere, spanning multiple worlds and creative soundtrack.  [oai_citation:3‡Steam Store](https://store.steampowered.com/app/3783250/The_Frutiger_Utopia/?utm_source=chatgpt.com)
+    </p>
+  </div>
+
+  <!-- Frutigeropolis: The Promised City -->
+  <div class="game-section">
+    <div class="game-title">Frutigeropolis: The Promised City</div>
+    <a href="https://store.steampowered.com/app/3918250/Frutigeropolis_The_Promised_City/" target="_blank" class="game-link">View on Steam</a>
+    <img src="https://steamcdn-a.akamaihd.net/steam/apps/3918250/header.jpg" alt="Frutigeropolis: The Promised City Steam Header">
+    <p>
+      Explore a serene, surreal city environment shaped by a calm futurist design ethos — coming soon on Steam.  [oai_citation:4‡Steam Store](https://store.steampowered.com/app/3918250/Frutigeropolis_The_Promised_City/?utm_source=chatgpt.com)
+    </p>
+  </div>
+
+  <a class="back-btn" href="index.html">← Back to Home</a>
+</div>
+
+<script>
+// Add some floating fish in background
+const numFish = 5;
+for (let i = 0; i < numFish; i++) {
+  const fish = document.createElement("div");
+  fish.className = "fish-bubble";
+  const img = document.createElement("img");
+  img.src = "259CBB1B-83EE-4820-8A36-DC96750B0F65.png";
+  fish.appendChild(img);
+
+  fish.style.left = Math.random() * (window.innerWidth - 60) + "px";
+  img.style.animationDuration = (Math.random() * 6 + 8) + "s";
+
+  document.body.appendChild(fish);
+}
+</script>
+
+</body>
+</html>
